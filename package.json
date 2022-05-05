@@ -9,6 +9,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
-  }
+    "express": "^4.18.1",
+    "inquire": "^0.4.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mage1404/Awesome-Note.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Mage1404/Awesome-Note/issues"
+  },
+  "homepage": "https://github.com/Mage1404/Awesome-Note#readme"
 }
