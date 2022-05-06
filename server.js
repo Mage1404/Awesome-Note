@@ -21,25 +21,43 @@ app.get('/notes', (req, res) => {
   res.sendFile(path.join(__dirname, './public/notes.html'));
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/index.html'));
+app.get('/api/notes/:id', (req, res) => {
+  const result = findById(req.params.id, notes);
+  if (result) {
+    res.json(result);
+  } else {
+    res.send(404);
+  }
 });
 
 app.post('/api/notes', (req, res) => {
   // req.body is where our incoming content will be
-  console.log(req.body);
-  const note = createNewNote(req.body, notes);
-  res.json(note);
+  req.body.id = notes.length.toString();
+  const result = createNewNote(req.body, notes);
+  res.json(result);
 });
 
-function createNewNote(body, notes) {
-  const note = body;
-  notes.push(note);
+app.delete('/api/notes/:id', (req, res) => {
+  const { id } = req.params;
+ 
+  const projectIndex = findById(id, notes);
+  notes.splice(projectIndex, 1);
+  return res.send();
+ });
+
+function createNewNote(body, notearray) {
+  const result = body;
+  notearray.push(result);
   fs.writeFileSync(
     path.join(__dirname, './db/db.json'),
-    JSON.stringify({ title: notes }, null, 2)
+    JSON.stringify({ notes: notearray }, null, 2)
   );
-  return note;
+  return result;
+}
+
+function findById(id, notes) {
+  const result = notes.filter(notes => notes.id === id)[0];
+  return result;
 }
 
 app.listen(PORT, () => {
