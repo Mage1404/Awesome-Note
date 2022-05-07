@@ -13,14 +13,6 @@ app.get('/api/notes', (req, res) => {
     res.json(notes);
   });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/index.html'));
-});
-
-app.get('/notes', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/notes.html'));
-});
-
 app.get('/api/notes/:id', (req, res) => {
   const result = findById(req.params.id, notes);
   if (result) {
@@ -44,6 +36,17 @@ app.delete('/api/notes/:id', (req, res) => {
   notes.splice(projectIndex, 1);
   return res.send();
  });
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.get('/notes', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/notes.html'));
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
 
 function createNewNote(body, notearray) {
   const result = body;
@@ -63,4 +66,3 @@ function findById(id, notes) {
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
   });
-  
